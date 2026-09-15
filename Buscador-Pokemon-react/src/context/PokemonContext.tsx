@@ -7,6 +7,9 @@ export interface Usuario {
     documento: {
         tipo: string, numero: string
     };
+    País_de_domicilio: string;
+    Ciudad_de_domicilio: string;
+    telefono: string;
     fechaNacimiento: string;
     correo: string;
     datosPersonales: boolean;
@@ -26,7 +29,7 @@ export interface PokemonTerjeta  {
 interface PokemonContextType {
     entrenadores: Usuario[];
     entrenadorActivo: Usuario | null;
-    mochillaActual: PokemonTerjeta[];
+    mochilaActual: PokemonTerjeta[];
     seleccionarEntrenador: (usuario: Usuario) => void;
     registrarEntrenador: (usuario: Usuario) => void;
     guardarPokemonMochila: (pokemon: PokemonTerjeta) => void;
@@ -39,7 +42,7 @@ const PokemonContext = createContext<PokemonContextType | undefined>(undefined);
 export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) => {
     const [entrenadores,setEntrenadores] = useState<Usuario[]>([]);
     const [entrenadoresActivo,setEntrenadorActivo] = useState<Usuario[] | null> ( null );
-    const [mochillaActual,setMochilaActual] = useState<PokemonTerjeta[] | null> ( null );
+    const [mochilaActual,setMochilaActual] = useState<PokemonTerjeta[] | null> ( null );
 
     useEffect(() =>{
         const data = localStorage.getItem('LISTA_ENTRENADORES');
@@ -77,7 +80,7 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
 
     const guardarPokemonMochila = (pokemon: PokemonTerjeta) => {
         if(!entrenadoresActivo) return;
-        const actualizada = [ ...mochillaActual, {...pokemon, esFavorito: false} ];
+        const actualizada = [ ...mochilaActual, {...pokemon, esFavorito: false} ];
         setMochilaActual(actualizada)
         localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(actualizada))
 
@@ -86,7 +89,7 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
 
     const actualizarFavorito = (pokemonId: number) => {
         if(!entrenadoresActivo) return;
-        const actualizada = mochillaActual.map(p => p.id === pokemonId ? {...p, esFavorito: !p.esFavorito} : p);
+        const actualizada = mochilaActual.map(p => p.id === pokemonId ? {...p, esFavorito: !p.esFavorito} : p);
         setMochilaActual(actualizada);
         localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(actualizada))
         
@@ -94,7 +97,7 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
 
     const eliminarPokemon = (pokemonId: number) => {
         if(!entrenadoresActivo) return;
-        const filtrado = mochillaActual.filter(p => p.id !== pokemonId );
+        const filtrado = mochilaActual.filter(p => p.id !== pokemonId );
         setMochilaActual(filtrado);
         localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(filtrado))
     };
@@ -102,7 +105,7 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
     return (
         <PokemonContext.Provider value={{
             entrenadores,
-            mochillaActual,
+            mochilaActual,
             entrenadorActivo, 
             seleccionarEntrenador, 
             registrarEntrenador, 
