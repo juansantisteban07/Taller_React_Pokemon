@@ -5,7 +5,8 @@ export interface Usuario {
     id: number;
     nombreCompleto: string;
     documento: {
-        tipo: string, numero: string
+        tipo: string;
+        numero: string;
     };
     País_de_domicilio: string;
     Ciudad_de_domicilio: string;
@@ -14,8 +15,7 @@ export interface Usuario {
     correo: string;
     datosPersonales: boolean;
     fehcaRegistro: string;
-
-};
+}
 
 export interface PokemonTerjeta  {
     id: number;
@@ -39,10 +39,11 @@ interface PokemonContextType {
 }
 
 const PokemonContext = createContext<PokemonContextType | undefined>(undefined);
-export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) => {
-    const [entrenadores,setEntrenadores] = useState<Usuario[]>([]);
-    const [entrenadoresActivo,setEntrenadorActivo] = useState<Usuario[] | null> ( null );
-    const [mochilaActual,setMochilaActual] = useState<PokemonTerjeta[] | null> ( null );
+
+export const PokemonProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [entrenadores, setEntrenadores] = useState<Usuario[]>([]);
+    const [entrenadorActivo, setEntrenadorActivo] = useState<Usuario | null>(null);
+    const [mochilaActual, setMochilaActual] = useState<PokemonTerjeta[]>([]);
 
     useEffect(() =>{
         const data = localStorage.getItem('LISTA_ENTRENADORES');
@@ -66,40 +67,38 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
 
     const seleccionarEntrenador = (usuario: Usuario) => {
         setEntrenadorActivo(usuario);
-
-        localStorage.setItem('entrenador_activo_id', usuario.id.toString());
+        localStorage.setItem('ENTRENADOR_ACTIVO_ID', usuario.id.toString());
         cargarMochilaEntrenador(usuario.id);
-    }
+    };
 
     const registrarEntrenador = (nuevoUsuario: Usuario) => {
         const actualizados = [...entrenadores, nuevoUsuario];
         setEntrenadores(actualizados);
         localStorage.setItem('LISTA_ENTRENADORES', JSON.stringify(actualizados));
         seleccionarEntrenador(nuevoUsuario);
-    }
+    };
 
     const guardarPokemonMochila = (pokemon: PokemonTerjeta) => {
-        if(!entrenadoresActivo) return;
-        const actualizada = [ ...mochilaActual, {...pokemon, esFavorito: false} ];
-        setMochilaActual(actualizada)
-        localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(actualizada))
-
-    }
-
+        if (!entrenadorActivo) return;
+        const actualizada = [...(mochilaActual ?? []), { ...pokemon, esFavorito: false }];
+        setMochilaActual(actualizada);
+        localStorage.setItem(`mochila_${entrenadorActivo.id}`, JSON.stringify(actualizada));
+    };
 
     const actualizarFavorito = (pokemonId: number) => {
-        if(!entrenadoresActivo) return;
-        const actualizada = mochilaActual.map(p => p.id === pokemonId ? {...p, esFavorito: !p.esFavorito} : p);
+        if (!entrenadorActivo) return;
+        const actualizada = (mochilaActual ?? []).map((p) =>
+            p.id === pokemonId ? { ...p, esFavorito: !p.esFavorito } : p
+        );
         setMochilaActual(actualizada);
-        localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(actualizada))
-        
-    }
+        localStorage.setItem(`mochila_${entrenadorActivo.id}`, JSON.stringify(actualizada));
+    };
 
     const eliminarPokemon = (pokemonId: number) => {
-        if(!entrenadoresActivo) return;
-        const filtrado = mochilaActual.filter(p => p.id !== pokemonId );
+        if (!entrenadorActivo) return;
+        const filtrado = (mochilaActual ?? []).filter((p) => p.id !== pokemonId);
         setMochilaActual(filtrado);
-        localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(filtrado))
+        localStorage.setItem(`mochila_${entrenadorActivo.id}`, JSON.stringify(filtrado));
     };
 
     return (
@@ -125,6 +124,7 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
 
 export const usePokemon = () => {
     const context = useContext(PokemonContext);
-    if(!context) throw new Error('usePokemon debe usarse en un Provider Imbecil'),
+    if (!context) throw new Error('usePokemon debe usarse en un Provider');
     return context;
-}
+};
+

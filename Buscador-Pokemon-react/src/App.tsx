@@ -13,15 +13,18 @@ function App(){
 
 
       <nav>
-        <NavLink to="/registro" className={({isActivate}) => (isActivate? 'active-tab': '')}>Registro</NavLink>
-        <NavLink to="/buscador" className={({isActivate}) => (isActivate? 'active-tab': '')}>buscador</NavLink>
-        <NavLink to="/inventario" className={({isActivate}) => (isActivate? 'active-tab': '')}>inventario</NavLink>
+        <NavLink to="/registro" className={({ isActive }: { isActive: boolean }) => (isActive ? 'active-tab' : '')}>Registro</NavLink>
+        <NavLink to="/buscador" className={({ isActive }: { isActive: boolean }) => (isActive ? 'active-tab' : '')}>buscador</NavLink>
+        <NavLink to="/inventario" className={({ isActive }: { isActive: boolean }) => (isActive ? 'active-tab' : '')}>inventario</NavLink>
       </nav>
       </header>
       <main>
-        <Route path="/registro" element={<navigate to="/registro" replace/>} />
-        <Route path="/buscador" element={<BuscadorPokemon/>} />
-        <Route path="/inventario" element={<InventarioPokemon/>} />
+        <Routes>
+          <Route path="/" element={<Navigate to="/registro" replace />} />
+          <Route path="/registro" element={<RegistroUsuario />} />
+          <Route path="/buscador" element={<BuscadorPokemon/>} />
+          <Route path="/inventario" element={<InventarioPokemon/>} />
+        </Routes>
       </main>
       </BrowserRouter>
     </PokemonProvider>
