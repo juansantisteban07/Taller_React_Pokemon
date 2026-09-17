@@ -6,6 +6,7 @@ export const RegistroUsuario: React.FC = () => {
   const { entrenadores, entrenadorActivo, seleccionarEntrenador, registrarEntrenador } = usePokemon();
   const navigate = useNavigate();
 
+
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [tipoDoc, setTipoDoc] = useState("Cédula de ciudadanía");

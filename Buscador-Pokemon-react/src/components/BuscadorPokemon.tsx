@@ -56,7 +56,7 @@ export const BuscadorPokemon: React.FC = ( ) => {
     return(
         <><div>
             {entrenadorActivo ? (<p>Mochilla Activa: <strong>{entrenadorActivo.nombreCompleto}</strong></p>
-            ) : (<p>No hay entrenador Activo marica, valla a RegistroUsuario y creelo maricon</p>)}
+            ) : (<p>No hay entrenador Activo mi rey, valla a RegistroUsuario y creelo </p>)}
         </div><form onSubmit={buscarPokemon}>
                 <div>
                     <label htmlFor="">Buscar Pokemon</label>

@@ -1,8 +1,12 @@
+import './App.css'; 
 import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { PokemonProvider } from './context/PokemonContext';
 import { RegistroUsuario } from './components/RegistroUsuario';
 import { BuscadorPokemon } from './components/BuscadorPokemon';
 import { InventarioPokemon } from './components/InventarioPokemon';
+
+
+
 
 function App(){
   return( 
@@ -18,7 +22,7 @@ function App(){
         <NavLink to="/inventario" className={({ isActive }: { isActive: boolean }) => (isActive ? 'active-tab' : '')}>inventario</NavLink>
       </nav>
       </header>
-      <main>
+      <main className='fondo-url'>
         <Routes>
           <Route path="/" element={<Navigate to="/registro" replace />} />
           <Route path="/registro" element={<RegistroUsuario />} />
@@ -32,3 +36,5 @@ function App(){
 }
 
 export default App;
+
+

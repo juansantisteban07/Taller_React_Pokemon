@@ -1,3 +1,10 @@
+#root {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 body {
   font-family: system-ui, -apple-system, sans-serif;
   background-color: #f4f6f8;
@@ -5,87 +12,169 @@ body {
   padding: 0;
 }
 
-.navbar {
+header {
   background-color: #ef5350;
   color: white;
-  padding: 1rem 2rem;
+  padding: 1.5rem 1rem;
   text-align: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.nav-links {
+header h1 {
+  margin: 0 0 15px 0;
+  font-size: 1.5rem;
+  color: white !important;
+}
+
+nav {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
-.nav-links a {
-  color: white;
+nav a {
+  color: white !important;
   text-decoration: none;
   font-weight: bold;
   padding: 8px 16px;
   border-radius: 20px;
   background-color: rgba(255, 255, 255, 0.2);
+  transition: background 0.2s;
+  font-size: 0.9rem;
 }
 
-.nav-links a.active-tab {
-  background-color: white;
-  color: #ef5350;
+nav a.active-tab {
+  background-color: white !important;
+  color: #ef5350 !important;
+}
+
+.fondo-url {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+    url('https://i.redd.it/i-built-ash-ketchums-house-v0-ronnk1s3p3sg1.jpg?width=1280&format=pjpg&auto=webp&s=51dfb2046bb77f7f00ca0b71a68ab7ee6c6217ad'); 
+  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  width: 100vw !important;    
+  min-height: calc(100vh - 120px); /* Ajusta dinámicamente según el espacio que sobra del menú */      
+  margin: 0 !important;              
+  box-sizing: border-box;  
+  
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Permite scroll natural si el formulario es muy largo */
+  padding: 40px 15px;
 }
 
 .form-container {
-  max-width: 650px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 500px;           
+  width: 100%;                
+  padding: 2rem 1.5rem; 
+  background: #ffffff !important; 
+  background-color: #ffffff !important;
+  border-radius: 24px;        
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35); 
+  box-sizing: border-box;
+  position: relative;
+  border: 8px solid transparent; 
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  background-image: 
+    linear-gradient(#ffffff, #ffffff), 
+    linear-gradient(to bottom, #ef5350 50%, #b0bec5 50%);
+}
+
+@media (min-width: 768px) {
+  .form-container {
+    padding: 3rem 2rem;
+  }
+}
+
+.form-container label,
+.form-group label {
+  color: #1a1a1a !important;   
+  font-weight: 700;           
+  margin-bottom: 6px;
+  text-shadow: none !important;
+  font-size: 0.95rem;
 }
 
 .form-row {
   display: flex;
+  flex-direction: column;    
   gap: 15px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
+}
+
+@media (min-width: 576px) {
+  .form-row {
+    flex-direction: row;     
+  }
 }
 
 .form-group {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-bottom: 12px;
-}
-
-.form-group label {
-  font-weight: 600;
-  margin-bottom: 4px;
 }
 
 .form-group input,
 .form-group select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  background-color: #f5f5f5 !important; 
+  color: #222222 !important;            
+  padding: 12px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #ef5350; 
+  background-color: #ffffff !important;
 }
 
 .checkbox-group {
-  margin: 15px 0;
+  margin: 20px 0;
+  color: #1a1a1a !important;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .btn-submit,
 .btn-capturar {
   background-color: #ef5350;
-  color: white;
+  color: white !important;
   border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
+  padding: 14px 16px;
+  border-radius: 8px;
   font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
   width: 100%;
+  transition: background 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-submit:hover {
+  background-color: #d32f2f;
 }
 
 .btn-capturar {
   background-color: #ff9800;
   margin-top: 10px;
+}
+
+.btn-capturar:hover {
+  background-color: #f57c00;
 }
 
 .banner-sesion {
@@ -106,9 +195,16 @@ body {
 
 .grid-mochila {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+  gap: 12px;
   margin-top: 20px;
+}
+
+@media (min-width: 576px) {
+  .grid-mochila {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+  }
 }
 
 .tarjeta-item {
@@ -128,6 +224,7 @@ body {
   display: flex;
   justify-content: space-around;
   margin-top: 10px;
+  gap: 5px;
 }
 
 .btn-fav {
@@ -136,6 +233,7 @@ body {
   padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 0.85rem;
 }
 
 .btn-fav.fav-activo {
@@ -150,4 +248,5 @@ body {
   padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 0.85rem;
 }
