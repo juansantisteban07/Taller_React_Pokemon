@@ -1,45 +1,55 @@
-import { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import type { Usuario } from '../context/PokemonContext';
+import React from 'react';
+import { usePokemon } from '../context/PokemonContext';
 
-export const InventarioPokemon = () => {
-    const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
-    const [tipoDoc, setTipoDoc] = useState('CC');
-    const [pais, setPais] = useState('');
-    const [ciudad, setCiudad] = useState('');
-    const [dni, setDni] = useState('');
-    const [fechaNacimiento, setFechaNacimiento] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [correo, setCorreo] = useState('');
-    const [datosPersonales, setDatosPersonales] = useState(false);
+export const InventarioPokemon : React.FC = () => {
 
-    const eventoSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const { entrenadorActivo, eliminarPokemon, actualizarFavorito, mochilaActual } = usePokemon();
 
-        if (!datosPersonales) {
-            alert('Debe aceptar el tratamiento de datos personales');
-            return;
-        }
-
-        const nuevo: Usuario = {
-            id: Date.now(),
-            nombreCompleto: `${nombre} ${apellido}`.trim(),
-            documento: { tipo: tipoDoc, numero: dni },
-            fechaNacimiento,
-            correo,
-            telefono,
-            residencia: `${ciudad}, ${pais}`,
-            datosPersonales,
-            fechaRegistro: new Date().toISOString(),
-        };
-
-
-    };
+    if(!entrenadorActivo) {
+        return (
+            <div>
+                <h3> NO HAY ENTRENADORES </h3>
+                <p>Por favor asigne <strong>entrenador activo</strong> o registre un entrenador.</p>
+            </div>
+        );
+    }
 
     return (
-        <div>
-            
+        <div className="banner-sesion">
+            <header>
+                <h2>Mochila de {entrenadorActivo.nombreCompleto}</h2>
+            </header>
+
+            <div className="grid-mochila">
+                {mochilaActual.length > 0 ? (
+                    mochilaActual.map((poke, index) => (
+                        <div key={poke.id} className={`tarjeta-item ${poke.esFavorito ? 'tajeta-favorita' : ''}`}>
+                            <span>#{index + 1} de {mochilaActual.length}</span>
+
+                            <img src={poke.image} alt={poke.nombre}></img>
+                            <h4>{poke.nombre}</h4>
+                            <p> {poke.type}</p>
+
+                            <div className='panel-botones'>
+                                <button
+                                    className={`btn-fav ${poke.esFavorito ? 'fav-activo' : ''}`}
+                                    onClick={() => actualizarFavorito(poke.id)}>
+                                        {poke.esFavorito ? '🌟favorito': '📌marcar'}
+                                </button>
+
+                                <button type='button' className='btn-eliminar' onClick={() => eliminarPokemon(poke.id)}></button>
+                                
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div>
+                        <p> Tu mochila esta vacia actualmente.</p>
+                        <p> Vaya y capture pokemon, papi</p>
+                    </div>
+                )
+                }
+            </div>
         </div>
     );
 };
