@@ -78,6 +78,7 @@ export const PokemonProvider: React.FC<{ children: ReactNode }> = ({ children })
         seleccionarEntrenador(nuevoUsuario);
     };
 
+
     const guardarPokemonMochila = (pokemon: PokemonTerjeta) => {
         if (!entrenadorActivo) return;
         const actualizada = [...(mochilaActual ?? []), { ...pokemon, esFavorito: false }];

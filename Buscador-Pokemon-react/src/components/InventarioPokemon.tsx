@@ -1,13 +1,14 @@
 import React from 'react';
 import { usePokemon } from '../context/PokemonContext';
 
+
 export const InventarioPokemon : React.FC = () => {
 
     const { entrenadorActivo, eliminarPokemon, actualizarFavorito, mochilaActual } = usePokemon();
 
     if(!entrenadorActivo) {
         return (
-            <div>
+            <div className='entrenador-txt'>
                 <h3> NO HAY ENTRENADORES </h3>
                 <p>Por favor asigne <strong>entrenador activo</strong> o registre un entrenador.</p>
             </div>
@@ -37,7 +38,7 @@ export const InventarioPokemon : React.FC = () => {
                                         {poke.esFavorito ? '🌟favorito': '📌marcar'}
                                 </button>
 
-                                <button type='button' className='btn-eliminar' onClick={() => eliminarPokemon(poke.id)}></button>
+                                <button type='button' className='btn-eliminar' onClick={() => eliminarPokemon(poke.id)}>Eliminar</button>
                                 
                             </div>
                         </div>

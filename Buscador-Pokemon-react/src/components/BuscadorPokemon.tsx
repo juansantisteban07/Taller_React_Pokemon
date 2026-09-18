@@ -25,11 +25,11 @@ export const BuscadorPokemon: React.FC = ( ) => {
 
         try {
             const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
-            if(!res.ok) throw new Error('Callate sapo')
+            if(!res.ok) throw new Error('Error porque si')
 
             const datos = await res.json();
             setPokemonActual({
-                 id: datos.id,
+                id: datos.id,
                 nombre: datos.name,
                 image: datos.sprites.front_default,
                 type:datos.types[0].type.name,
@@ -56,11 +56,11 @@ export const BuscadorPokemon: React.FC = ( ) => {
     return(
         <><div>
             {entrenadorActivo ? (<p>Mochilla Activa: <strong>{entrenadorActivo.nombreCompleto}</strong></p>
-            ) : (<p>No hay entrenador Activo mi rey, valla a RegistroUsuario y creelo </p>)}
+            ) : (<p className="text-parrafo">No hay entrenador Activo mi rey, valla a RegistroUsuario y creelo </p>)}
         </div><form onSubmit={buscarPokemon}>
                 <div>
                     <label htmlFor="">Buscar Pokemon</label>
-                    <input type="text" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Ej: maricon" />
+                    <input type="text" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Ej: CHARMANDER, PIKACHU" />
                 </div>
 
                 <button type="submit" disabled={cargando}>
